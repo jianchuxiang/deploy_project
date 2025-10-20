@@ -1,57 +1,52 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Risk Prediction Model</title> <!-- 浏览器标签页标题 -->
+    <title>Clinical Risk Prediction Model</title>
     <style>
-        /* --- 基础与字体 --- */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
-        /* :root 选择器用于定义全局CSS变量，方便统一管理和修改颜色 */
         :root {
-            --primary-color: #3B82F6; /* 主题色 (蓝色) */
-            --primary-hover: #2563EB; /* 主题色悬停时 (深蓝色) */
-            --background-color: #F3F4F6; /* 页面背景色 (浅灰色) */
-            --card-background: #FFFFFF; /* 卡片背景色 (白色) */
-            --text-primary: #1F2937; /* 主要文字颜色 (深灰色) */
-            --text-secondary: #6B7280; /* 次要文字颜色 (灰色) */
-            --border-color: #D1D5DB; /* 边框颜色 (中灰色) */
-            --success-bg: #D1FAE5; /* 成功提示背景色 (浅绿色) */
-            --success-text: #065F46; /* 成功提示文字颜色 (深绿色) */
-            --error-bg: #FEE2E2; /* 失败提示背景色 (浅红色) */
-            --error-text: #991B1B; /* 失败提示文字颜色 (深红色) */
+            --primary-color: #3B82F6;
+            --primary-hover: #2563EB;
+            --background-color: #F3F4F6;
+            --card-background: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border-color: #D1D5DB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
         }
 
-        /* --- 页面整体样式 --- */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 设置字体，优先使用Inter */
-            background-color: var(--background-color); /* 应用背景色变量 */
-            color: var(--text-primary); /* 应用主要文字颜色变量 */
-            display: flex; /* 使用Flexbox布局 */
-            justify-content: center; /* 水平居中 */
-            align-items: center; /* 垂直居中 */
-            min-height: 100vh; /* 最小高度为整个视口高度，确保垂直居中有效 */
-            margin: 0; /* 移除默认外边距 */
-            padding: 20px; /* 为小屏幕设备提供一些内边距 */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* --- 主容器卡片样式 --- */
         .container {
             background-color: var(--card-background);
             padding: 40px;
-            border-radius: 16px; /* 更大的圆角 */
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1); /* 柔和的阴影效果 */
+            border-radius: 16px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px; /* 限制最大宽度 */
-            box-sizing: border-box; /* 确保padding不会撑大宽度 */
-            border-top: 5px solid var(--primary-color); /* 顶部的主题色装饰条 */
+            max-width: 600px;
+            box-sizing: border-box;
+            border-top: 5px solid var(--primary-color);
         }
 
-        /* --- 头部信息样式 --- */
         .header {
-            text-align: center; /* 文本居中 */
-            margin-bottom: 30px; /* 与表单的间距 */
+            text-align: center;
+            margin-bottom: 30px;
         }
         h1 {
             color: var(--text-primary);
@@ -64,27 +59,25 @@
             font-size: 16px;
         }
 
-        /* --- 表单布局 --- */
         #prediction-form {
-            display: grid; /* 使用Grid布局，方便创建网格 */
-            grid-template-columns: 1fr; /* 默认是单列布局，适用于移动设备 */
-            gap: 20px; /* 网格项之间的间距 */
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
-        /* --- 响应式布局：当屏幕宽度大于600px时，应用以下样式 --- */
         @media (min-width: 600px) {
             #prediction-form {
-                grid-template-columns: 1fr 1fr; /* 变为两列布局 */
+                grid-template-columns: 1fr 1fr;
             }
         }
         
         .form-group {
             display: flex;
-            flex-direction: column; /* 标签和输入框垂直排列 */
+            flex-direction: column;
         }
 
         label {
-            margin-bottom: 8px; /* 标签和输入框的间距 */
+            margin-bottom: 8px;
             font-weight: 500;
             color: var(--text-secondary);
             font-size: 14px;
@@ -98,200 +91,153 @@
             box-sizing: border-box;
             font-size: 16px;
             font-family: 'Inter', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s; /* 平滑的过渡效果 */
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        /* 输入框获得焦点时的样式 */
         input[type="number"]:focus {
-            outline: none; /* 移除默认的蓝色轮廓 */
-            border-color: var(--primary-color); /* 边框变为主题色 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* 添加柔和的光晕效果 */
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
         }
 
-        /* --- 提交按钮样式 --- */
-        .submit-button {
-            grid-column: 1 / -1; /* 关键属性：让按钮横跨所有网格列 */
-            width: 100%;
-            padding: 14px;
-            background-color: var(--primary-color);
+        button {
+            grid-column: 1 / -1; /* 让按钮横跨所有列 */
+            padding: 15px;
+            background: linear-gradient(to right, #3B82F6, #60A5FA);
             color: white;
             border: none;
             border-radius: 8px;
-            cursor: pointer; /* 鼠标变为手形 */
+            cursor: pointer;
             font-size: 18px;
             font-weight: 600;
-            margin-top: 10px; /* 与上方输入框的间距 */
-            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s; /* 平滑过渡 */
+            transition: transform 0.2s, box-shadow 0.3s;
         }
-        /* 按钮悬停时的效果 */
-        .submit-button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px); /* 轻微上移 */
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3); /* 添加阴影 */
-        }
-        /* 按钮被点击时的效果 */
-        .submit-button:active {
-            transform: translateY(0);
+        button:hover {
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
         }
 
-        /* --- 结果显示区域样式 --- */
-        #result-container {
+        #result {
             margin-top: 30px;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
-            animation: fadeIn 0.5s ease-in-out; /* 淡入动画 */
-            display: flex; /* 使用flex布局，方便图标和文字对齐 */
-            flex-direction: column;
-            align-items: center;
-            gap: 10px; /* 内部元素的间距 */
+            font-size: 1.1em;
+            line-height: 1.6;
+            transition: all 0.3s;
         }
-        /* 成功、失败、加载中的不同背景和文字颜色 */
-        .result-success { background-color: var(--success-bg); color: var(--success-text); }
-        .result-error { background-color: var(--error-bg); color: var(--error-text); }
-        .result-loading { background-color: #E5E7EB; color: var(--text-secondary); }
-
-        #prediction-text { font-weight: 700; font-size: 22px; }
-        #probability-text { font-size: 16px; }
-        .icon { width: 32px; height: 32px; } /* 图标大小 */
-
-        /* 定义淡入动画效果 */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #result.success { background-color: var(--success-bg); color: var(--success-text); }
+        #result.error { background-color: var(--error-bg); color: var(--error-text); }
+        #result p { margin: 5px 0; }
     </style>
 </head>
 <body>
-    <!-- 页面主容器 -->
     <div class="container">
-        <!-- 头部，包含标题和副标题 -->
         <div class="header">
             <h1>Clinical Risk Prediction Model</h1>
-            <!-- 
-              副标题现在是动态的！
-              `{{ num_features }}` 是一个Jinja2模板变量。
-              它的值 (例如 10) 是由 Python 后端在渲染页面时传递过来的。
-            -->
-            <p class="subtitle">Please enter the values for the following {{ num_features }} metrics for risk assessment</p>
+            <p class="subtitle">Please enter the values for the following 10 metrics for risk assessment.</p>
         </div>
-
-        <!-- 预测表单 -->
+        
         <form id="prediction-form">
             <!-- 
-              注意：下面的输入框是根据您指定的10个特征硬编码的。
-              如果您的Python脚本中的特征列表发生变化，您必须手动更新此处的HTML代码
-              以确保标签(label)和输入框的name属性完全匹配。
-            -->
-            <div class="form-group">
-                <label for="Glu">Glu</label>
-                <input type="number" id="Glu" name="Glu" step="0.00001" placeholder="e.g., 12.345" required>
-            </div>
+                【重要更新】
+                根据新的特征列表硬编码了10个输入框。
+                每个'form-group'代表一个输入项。
+                'label'的'for'属性必须和'input'的'id'属性一致。
+                'input'的'name'和'id'属性必须【严格】匹配您在Python脚本中使用的特征名称。
+             -->
             <div class="form-group">
                 <label for="PT">PT</label>
-                <input type="number" id="PT" name="PT" step="0.00001" placeholder="e.g., 12.345" required>
+                <input type="number" step="any" id="PT" name="PT" required placeholder="e.g., 12.5">
             </div>
             <div class="form-group">
-                <label for="SAPS II">SAPS II</label>
-                <input type="number" id="SAPS II" name="SAPS II" step="0.00001" placeholder="e.g., 12.345" required>
-            </div>
-            <div class="form-group">
-                <label for="BUN">BUN</label>
-                <input type="number" id="BUN" name="BUN" step="0.00001" placeholder="e.g., 12.345" required>
-            </div>
-            <div class="form-group">
-                <label for="AST">AST</label>
-                <input type="number" id="AST" name="AST" step="0.00001" placeholder="e.g., 12.345" required>
-            </div>
-            <div class="form-group">
-                <label for="SOFA">SOFA</label>
-                <input type="number" id="SOFA" name="SOFA" step="0.00001" placeholder="e.g., 12.345" required>
+                <label for="Glu">Glu</label>
+                <input type="number" step="any" id="Glu" name="Glu" required placeholder="e.g., 100">
             </div>
             <div class="form-group">
                 <label for="pH">pH</label>
-                <input type="number" id="pH" name="pH" step="0.00001" placeholder="e.g., 7.40" required>
+                <input type="number" step="any" id="pH" name="pH" required placeholder="e.g., 7.4">
+            </div>
+            <div class="form-group">
+                <label for="AST">AST</label>
+                <input type="number" step="any"id="AST" name="AST" required placeholder="e.g., 25">
             </div>
             <div class="form-group">
                 <label for="PLT">PLT</label>
-                <input type="number" id="PLT" name="PLT" step="0.00001" placeholder="e.g., 150.0" required>
+                <input type="number" step="any" id="PLT" name="PLT" required placeholder="e.g., 250">
+            </div>
+            <div class="form-group">
+                <label for="BUN">BUN</label>
+                <input type="number" step="any" id="BUN" name="BUN" required placeholder="e.g., 15">
             </div>
             <div class="form-group">
                 <label for="HR">HR</label>
-                <input type="number" id="HR" name="HR" step="0.00001" placeholder="e.g., 80.0" required>
+                <input type="number" step="any" id="HR" name="HR" required placeholder="e.g., 80">
             </div>
             <div class="form-group">
                 <label for="WBC">WBC</label>
-                <input type="number" id="WBC" name="WBC" step="0.00001" placeholder="e.g., 8.5" required>
+                <input type="number" step="any" id="WBC" name="WBC" required placeholder="e.g., 7.5">
             </div>
-            
-            <!-- 提交按钮 -->
-            <button type="submit" class="submit-button">Predict</button>
+            <div class="form-group">
+                <label for="TBIL">TBIL</label>
+                <input type="number" step="any" id="TBIL" name="TBIL" required placeholder="e.g., 0.8">
+            </div>
+            <div class="form-group">
+                <label for="Age">Age</label>
+                <input type="number" step="any" id="Age" name="Age" required placeholder="e.g., 55">
+            </div>
+
+            <button type="submit">Predict</button>
         </form>
 
-        <!-- 这个div用于显示预测结果或错误信息，默认是隐藏的 -->
-        <div id="result-container"></div>
+        <div id="result" style="display:none;"></div>
     </div>
 
-    <!-- JavaScript代码区域 -->
     <script>
         document.getElementById('prediction-form').addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            const resultContainer = document.getElementById('result-container');
-            const formData = new FormData(this); 
-            const data = {}; 
-
-            for (let [key, value] of formData.entries()) {
-                if (value === '' || isNaN(parseFloat(value))) {
-                    displayResult('error', `Error: Please ensure all fields are filled with valid numbers.`);
-                    return; 
-                }
+            const formData = new FormData(this);
+            const data = {};
+            // 将表单数据转换为 { "特征名": 数值 } 的格式
+            formData.forEach((value, key) => {
                 data[key] = parseFloat(value);
-            }
+            });
 
-            displayResult('loading');
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = '';
+            resultDiv.innerText = 'Calculating...';
 
             try {
+                // 发送POST请求到后端的 /predict 接口
                 const response = await fetch('/predict', {
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify(data) 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
                 });
 
+                // 解析返回的JSON数据
                 const result = await response.json();
 
-                if (response.ok) {
-                    displayResult('success', result.prediction_text, result.probability);
-                } else {
-                    displayResult('error', `Prediction Failed: ${result.error}`);
+                if (!response.ok) {
+                    // 如果服务器返回错误状态码 (如400, 500)，则抛出错误
+                    throw new Error(result.error || `HTTP error! status: ${response.status}`);
                 }
+
+                // 更新结果区域的HTML内容和样式
+                resultDiv.classList.add('success');
+                resultDiv.innerHTML = `
+                    <p><strong>Prediction:</strong> ${result.prediction}</p>
+                    <p><strong>Probability of Risk:</strong> ${(result.probability_of_risk * 100).toFixed(2)}%</p>
+                `;
+
             } catch (error) {
-                console.error('Request Failed:', error);
-                displayResult('error', 'A network error occurred. Unable to connect to the server.');
+                // 捕获网络错误或服务器返回的错误
+                console.error('Request failed:', error);
+                resultDiv.classList.add('error');
+                resultDiv.innerText = `Prediction Failed: ${error.message}`;
             }
         });
-
-        function displayResult(type, message = '', probability = '') {
-            const resultContainer = document.getElementById('result-container');
-            resultContainer.style.display = 'flex'; 
-            let content = '';
-
-            const successIcon = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
-            const errorIcon = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>`;
-            const loadingIcon = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="animation: spin 1s linear infinite;"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001a7.5 7.5 0 01-1.066 2.593m-8.684 6.664A7.5 7.5 0 019 21a7.5 7.5 0 01-2.593-1.066m0 0A7.5 7.5 0 013 12a7.5 7.5 0 011.066-2.593m0 0V9.348H3.023m13.001 0a7.5 7.5 0 01-2.593-1.066m0 0c-.39-.39-.752-.81-1.066-1.254a7.5 7.5 0 01-2.593-1.066m0 0V3.023h4.992" /></svg><style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>`;
-
-            switch (type) {
-                case 'success':
-                    resultContainer.className = 'result-success';
-                    content = `${successIcon}<p id="prediction-text">${message}</p><p id="probability-text">Risk Probability: ${probability}</p>`;
-                    break;
-                case 'error':
-                    resultContainer.className = 'result-error';
-                    content = `${errorIcon}<p>${message}</p>`;
-                    break;
-                case 'loading':
-                    resultContainer.className = 'result-loading';
-                    content = `${loadingIcon}<p>Calculating, please wait...</p>`;
-                    break;
-            }
-            resultContainer.innerHTML = content;
-        }
     </script>
 </body>
 </html>
